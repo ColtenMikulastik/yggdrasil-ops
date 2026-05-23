@@ -1,0 +1,7 @@
+services:
+  openwebui:
+      image: ghcr.io/open-webui/open-webui:main-slim
+      ports:
+        - 8202:8080 
+      volumes:
+        - ${PATH}data:/app/backend/data # Ensures data persistence for the WebUI
