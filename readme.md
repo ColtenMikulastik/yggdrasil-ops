@@ -41,3 +41,9 @@
 - I'm not super familar with the word gitops, but it seems to apply here: https://about.gitlab.com/topics/gitops/
 - Using github for a declairative description of how the services is to run, and with added bonus of having version control.
     - also I get to share it with people :^)!
+
+# using Infiscal
+- for each compose file, there is also a test environment file, this should describe how you should fill the environment contents
+- secrets will not be filled, you will have to fill these, and manage them somehow on your own
+    - I'm going to use infiscal, through the cloud for now. This increases redundancy, and is a free with some limitations.
+

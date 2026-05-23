@@ -1,0 +1,10 @@
+name: n8n
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    ports:
+      - 8207:5678
+    volumes:
+      - ${PATH}data:/home/node/.n8n
+    environment:
+      - N8N_SECURE_COOKIE=false
