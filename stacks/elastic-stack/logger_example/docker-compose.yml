@@ -1,0 +1,9 @@
+services:
+  logger:
+    image: chentex/random-logger
+    container_name: logger
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://${LOGSTASH_HOST}:${LOGSTASH_PORT}"
+        tag: "logger"

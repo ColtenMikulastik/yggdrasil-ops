@@ -20,6 +20,9 @@
 | portainer | 8001, 8005 |
 | pihole | 8002 |
 | nginx | 8003 | 
+| elasticsearch | 9200 (attempted 8006) |
+| logstash | 8007, 8008 GELF |
+| kibana | 8009 | 
 | start-Media | 81.. |
 | audiobookshelf | 8101 |
 | start-tools | 82.. |
@@ -36,6 +39,10 @@
 - this means that devices brought into the network can access resources via:
     - heimdall.mikulastik.live: which is a network launch page
     - then all resources can be accessed by hostnames, resolved by the pihole to nginx and then forwarded through a encrypted tunnel to the service.
+
+# Logs and ElasticSearch
+- agent logs, like metrics and other information about a host can be taken in by elastic search instance
+- Docker logs, can be forwarded if following rules in logger docker container example
 
 # using Github
 - I'm not super familar with the word gitops, but it seems to apply here: https://about.gitlab.com/topics/gitops/
