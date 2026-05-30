@@ -58,7 +58,7 @@ services:
       elasticsearch:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:8009/api/status | grep -q available"]
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q available"]
       interval: 30s
       retries: 10
 
