@@ -23,6 +23,7 @@
 | elasticsearch | 9200 (attempted 8006) |
 | logstash | 8007, 8008 GELF |
 | kibana | 8009 | 
+| wireguard | 51820, 8011 (UI) |
 | start-Media | 81.. |
 | audiobookshelf | 8101 |
 | start-tools | 82.. |
@@ -54,3 +55,5 @@
 - secrets will not be filled, you will have to fill these, and manage them somehow on your own
     - I'm going to use infiscal, through the cloud for now. This increases redundancy, and is a free with some limitations.
 
+# External connection managed by Wireguard
+- changing from tailscale to wireguard, some more overhead for me to manage but tailscale routinely had issues with DNS.
