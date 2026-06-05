@@ -30,3 +30,8 @@ services:
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=db
       - NEXTCLOUD_TRUSTED_DOMAINS=* #still is not working, have to manually set in the config.php
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://${LOGSTASH_HOST}:${LOGSTASH_PORT}"
+        tag: "nextcloud"
