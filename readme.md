@@ -33,6 +33,7 @@
 | nextcloud | 8204 |
 | heimdall | 8205, 8206 |
 | n8n | 8207 |
+| gitea | 8208, 8209 |
 - this is of course not to say this is how the services are accessed but just how they are managed
 
 # Resolving hostnames:
