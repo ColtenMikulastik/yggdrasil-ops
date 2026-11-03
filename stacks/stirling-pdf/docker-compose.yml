@@ -1,0 +1,14 @@
+services:
+  stirling-pdf:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
+    ports:
+      - 8210:8080
+    volumes:
+      - ${PATH}tessdata:/usr/share/tessdata
+      - ${PATH}configs:/configs
+      - ${PATH}logs:/logs
+    environment:
+      - SECURITY_ENABLELOGIN=false # access is already restricted to LAN/VPN
+      - LANGS=en_US
+    restart: unless-stopped
