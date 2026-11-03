@@ -1,0 +1,29 @@
+name: claude-code
+services:
+  claude-code:
+    # Third-party image (https://github.com/beevelop/docker-claude), pinned by digest because
+    # it only publishes :latest/:nightly. To update: pull a new digest from Docker Hub and bump it.
+    image: beevelop/claude@sha256:6df459c8b94ed4623bd4a8c733d03c52a29e5568bb5b275254b6100f534ddb19
+    container_name: claude-code
+    # No ports: Remote Control only makes outbound connections to claude.ai
+    tty: true          # required by remote-control
+    stdin_open: true   # required for the first-launch login via attach
+    volumes:
+      - ${DATA_PATH}claude:/home/developer/.claude   # OAuth login, settings, history
+      - ${DATA_PATH}workspace:/workspace             # the only project files Claude can touch
+    environment:
+      - CLAUDE_SESSION_NAME=${CLAUDE_SESSION_NAME:-yggdrasil}
+      - CLAUDE_PERMISSION_MODE=${CLAUDE_PERMISSION_MODE:-acceptEdits}
+      - GIT_REPO=${GIT_REPO:-}
+      - GIT_BRANCH=${GIT_BRANCH:-}
+      - GIT_USER_NAME=${GIT_USER_NAME:-Claude Code}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
+      - DEPLOY_KEY_B64=${DEPLOY_KEY_B64:-}
+    # sandboxing (image gives the user passwordless sudo; no-new-privileges neutralises it)
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    mem_limit: 4g
+    restart: unless-stopped

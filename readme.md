@@ -35,6 +35,7 @@
 | n8n | 8207 |
 | gitea | 8208, 8209 |
 | stirling-pdf | 8210 |
+| claude-code | none (outbound only, used via claude.ai/code) |
 - this is of course not to say this is how the services are accessed but just how they are managed
 
 # Resolving hostnames:
