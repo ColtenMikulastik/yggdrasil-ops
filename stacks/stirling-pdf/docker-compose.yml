@@ -5,9 +5,9 @@ services:
     ports:
       - 8210:8080
     volumes:
-      - ${PATH}tessdata:/usr/share/tessdata
-      - ${PATH}configs:/configs
-      - ${PATH}logs:/logs
+      - ${DATA_PATH}tessdata:/usr/share/tessdata
+      - ${DATA_PATH}configs:/configs
+      - ${DATA_PATH}logs:/logs
     environment:
       - SECURITY_ENABLELOGIN=false # access is already restricted to LAN/VPN
       - LANGS=en_US
