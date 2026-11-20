@@ -1,0 +1,24 @@
+# needs stacks/media-init deployed first
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    user: "${MEDIA_UID:?set MEDIA_UID}:${MEDIA_GID:?set MEDIA_GID}"
+    ports:
+      - 8102:8096
+    volumes:
+      - ${APPDATA_PATH}/jellyfin/config:/config
+      - ${APPDATA_PATH}/jellyfin/cache:/cache
+      # read-only: nextcloud is the only writer. Turn off "save nfo" in jellyfin libraries.
+      - ${MEDIA_PATH}/movies:/data/movies:ro
+      - ${MEDIA_PATH}/tv:/data/tv:ro
+      - ${MEDIA_PATH}/music:/data/music:ro
+    environment:
+      - TZ=${TZ}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8096/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped

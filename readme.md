@@ -26,6 +26,8 @@
 | wireguard | 51820, 8011 (UI) |
 | start-Media | 81.. |
 | audiobookshelf | 8101 |
+| jellyfin | 8102 |
+| media-init | none (one-shot, deploy before the media stacks) |
 | start-tools | 82.. |
 | karakeep | 8201 |
 | openwebui | 8202 |
