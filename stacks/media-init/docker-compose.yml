@@ -14,6 +14,7 @@ services:
     cap_add:
       - CHOWN
       - FOWNER
+      - FSETID        # without this the setgid bit (2775) is silently stripped by chmod
       - DAC_OVERRIDE
     security_opt:
       - no-new-privileges:true
