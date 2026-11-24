@@ -33,6 +33,10 @@ services:
         case "$$U$$G" in *[!0-9]*|"") fail "MEDIA_UID/MEDIA_GID must be numeric";; esac
         [ "$$U" -ne 0 ] || fail "MEDIA_UID must not be 0 (root)"
 
+        # library root itself, so nextcloud can create folders directly in it
+        chown "$$U:$$G" /media
+        chmod 2775 /media
+
         # shared library: top-level dirs only (not recursive, nextcloud owns what it uploads)
         for d in movies tv music audiobooks podcasts books; do
           mkdir -p "/media/$$d"
@@ -47,6 +51,8 @@ services:
         chown -R "$$U:$$G" /appdata/jellyfin /appdata/audiobookshelf
 
         # verify
+        got=$$(stat -c '%u:%g %a' /media)
+        [ "$$got" = "$$U:$$G 2775" ] || fail "/media is '$$got', expected '$$U:$$G 2775'"
         for d in movies tv music audiobooks podcasts books; do
           got=$$(stat -c '%u:%g %a' "/media/$$d")
           [ "$$got" = "$$U:$$G 2775" ] || fail "/media/$$d is '$$got', expected '$$U:$$G 2775' (NFS root_squash / read-only mount?)"
