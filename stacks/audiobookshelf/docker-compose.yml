@@ -1,14 +1,25 @@
+# needs stacks/media-init deployed first
 services:
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    user: "${MEDIA_UID:?set MEDIA_UID}:${MEDIA_GID:?set MEDIA_GID}"
     ports:
-      - 8101:80
+      - 8101:13378
     volumes:
-      - ${PATH}books:/books
-      - ${PATH}audiobooks:/audiobooks
-      - ${PATH}podcasts:/podcasts
-      - ${PATH}config:/config
-      - ${PATH}metadata:/metadata
+      # read-only: nextcloud is the only writer
+      - ${MEDIA_PATH}/audiobooks:/audiobooks:ro
+      - ${MEDIA_PATH}/podcasts:/podcasts:ro
+      - ${MEDIA_PATH}/books:/books:ro
+      - ${APPDATA_PATH}/audiobookshelf/config:/config
+      - ${APPDATA_PATH}/audiobookshelf/metadata:/metadata
     environment:
       - TZ=${TZ}
+      - PORT=13378   # non-root cannot bind 80
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:13378/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     restart: unless-stopped
