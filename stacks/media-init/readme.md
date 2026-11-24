@@ -2,6 +2,10 @@
 One-shot container that prepares the shared media library so jellyfin, audiobookshelf and nextcloud agree on ownership.
 Use the SAME `MEDIA_UID`, `MEDIA_GID`, `MEDIA_PATH`, `APPDATA_PATH` values in all four stacks.
 
+**`MEDIA_GID` must be `33`** (the `www-data` group inside the nextcloud image). Nextcloud's apache workers reset their
+supplementary groups, so `group_add` with another gid is NOT enough: the CLI (`occ`) can write but the web UI gets
+"Unable to create the directory". `MEDIA_UID` can be any unused id (default 1500).
+
 1. Deploy this stack first. It exits when done; "Exited (0)" in Portainer is success.
 2. Exited (1)? Open the container logs, the first line says what failed.
 3. Then deploy jellyfin, audiobookshelf, nextcloud.
@@ -58,4 +62,4 @@ sudo chmod -R u+rwX,g+rwX,o+rX <MEDIA_PATH>/audiobooks/NewAuthor
 ## Troubleshooting
 - File shows in nextcloud but not in the player: rescan the player, then check `ls -ln` on the file (group should be `MEDIA_GID` or the file world-readable).
 - Player library empty after deploy: check that `media-init` exited 0.
-- Nextcloud "permission denied" on upload: check the folder is `drwxrwsr-x` and the nextcloud container has `group_add` for `MEDIA_GID`.
+- Nextcloud "permission denied" on upload: check the folder is `drwxrwsr-x` with group `33`, and that `MEDIA_GID=33` in every stack. If `docker exec -u www-data` can write but the web UI can't, the gid is not 33.
