@@ -16,7 +16,8 @@ services:
       - MYSQL_USER=nextcloud
 
   app:
-    image: nextcloud
+    # pinned: nextcloud only upgrades one major at a time (33 -> 34 -> 35). Bump one major per deploy.
+    image: nextcloud:34
     restart: always
     ports:
       - 8204:80
